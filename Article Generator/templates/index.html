@@ -63,7 +63,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ prompt: prompt })
+                body: JSON.stringify({ prompt: prompt }) /*? Sending the prompt by the user to the backend. */
             });
             content.innerHTML = await response.text();
         }
