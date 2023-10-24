@@ -1,5 +1,6 @@
 from langchain.document_loaders import YoutubeLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter #! CodeTextSplitter allows you to split your code with multiple languages supported.
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+#! CodeTextSplitter allows you to split your code with multiple languages supported.
 from langchain.llms import OpenAI
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.prompts import PromptTemplate
@@ -27,7 +28,7 @@ def create_vector_db_from_youtube_url(video_url: str) -> FAISS:
 #? We are using the response from the db to generate answers to the questions being asked.
 def get_response_from_query(db, query, k=4):
     docs = db.similarity_search(query, k=k) #* This is collecting the data from the db related to the query entered.
-    docs_page_content= " ".join([d.page_content for d in docs])
+    docs_page_content= " ".join([d.page_content for d in docs]) #? Docs is a list with 4 elements.
 
     llm = OpenAI(model = 'text-davinci-003')
     prompt = PromptTemplate(
@@ -48,5 +49,6 @@ def get_response_from_query(db, query, k=4):
     )
     chain = LLMChain(llm=llm, prompt=prompt)
     response = chain.run(question = query, docs=docs_page_content)
+    #* Passing the parameters for the input_variables while implementing the function.
     response= response.replace("\n","")
     return response
